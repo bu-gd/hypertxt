@@ -317,6 +317,10 @@ body {
   cursor: pointer;
 }
 
+#closeBtn span {
+  font-size: 70px !important;
+}
+
 #poster-stage {
   position: fixed;
   top: 0;

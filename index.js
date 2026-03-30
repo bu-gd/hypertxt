@@ -335,10 +335,17 @@ fetch('data.json')
       const div = document.createElement('div');
       div.className = 'name';
 
-      div.innerHTML = `
-        <span>${person["name-first"]}</span>
-        <span>${person["name-last"]}</span>
-      `;
+      const first = document.createElement('span');
+      first.className = 'name-first';
+      first.textContent = person["name-first"];
+
+      const last = document.createElement('span');
+      last.className = 'name-last';
+      last.textContent = person["name-last"];
+
+      div.appendChild(first);
+      div.appendChild(document.createTextNode(' '));
+      div.appendChild(last);
 
       div.addEventListener('mouseenter', () => {
         if (isLocked) return;
@@ -413,7 +420,6 @@ fetch('data.json')
 // =============================================================================
 // Gallery (UNCHANGED)
 // =============================================================================
-
 const bluetonePath = "./gallery_bluetone/";
 const originalPath = "./gallery_original/";
 
@@ -421,10 +427,12 @@ const fileNames = [
   "page1.jpg","page2.jpg","page3.jpg"
 ];
 
-const images = fileNames.map(file => [
-  bluetonePath + file,
-  originalPath + file
-]);
+const isMobile = window.matchMedia("(max-width: 600px)").matches;
+const images = fileNames.map(file =>
+  isMobile
+    ? [bluetonePath + file]
+    : [bluetonePath + file, originalPath + file]
+);
 
 let currentPage = 0;
 let activeIndex = 0;
@@ -437,7 +445,11 @@ function renderBackground() {
   const index = hoverIndex !== null ? hoverIndex : activeIndex;
   if (!images[index]) return;
 
-  const img = images[index][hoverIndex !== null ? 1 : 0];
+  const img =
+    isMobile
+      ? images[index][0]
+      : images[index][hoverIndex !== null ? 1 : 0];
+
   gallery.style.backgroundImage = `url('${img}')`;
 }
 
@@ -470,6 +482,64 @@ function renderPagination() {
 
 renderPagination();
 gallery.style.backgroundImage = `url('${images[0][0]}')`;
+
+
+// const bluetonePath = "./gallery_bluetone/";
+// const originalPath = "./gallery_original/";
+
+// const fileNames = [
+//   "page1.jpg","page2.jpg","page3.jpg"
+// ];
+
+// const images = fileNames.map(file => [
+//   bluetonePath + file,
+//   originalPath + file
+// ]);
+
+// let currentPage = 0;
+// let activeIndex = 0;
+// let hoverIndex = null;
+
+// const gallery = document.getElementById("page-gallery");
+// const pagination = document.getElementById("pagination");
+
+// function renderBackground() {
+//   const index = hoverIndex !== null ? hoverIndex : activeIndex;
+//   if (!images[index]) return;
+
+//   const img = images[index][hoverIndex !== null ? 1 : 0];
+//   gallery.style.backgroundImage = `url('${img}')`;
+// }
+
+// function renderPagination() {
+//   pagination.innerHTML = "";
+
+//   images.forEach((_, i) => {
+//     const btn = document.createElement("button");
+//     btn.textContent = "⬤";
+
+//     btn.onmouseenter = () => {
+//       hoverIndex = i;
+//       renderBackground();
+//     };
+
+//     btn.onmouseleave = () => {
+//       hoverIndex = null;
+//       renderBackground();
+//     };
+
+//     btn.onclick = () => {
+//       activeIndex = i;
+//       renderPagination();
+//       renderBackground();
+//     };
+
+//     pagination.appendChild(btn);
+//   });
+// }
+
+// renderPagination();
+// gallery.style.backgroundImage = `url('${images[0][0]}')`;
 
 
 // =============================================================================
@@ -541,6 +611,8 @@ animateFloating();
 // Window Resize
 // =============================================================================
 window.addEventListener('resize', () => {
+  location.reload();
+  
   if (!focusedPoster) return;
 
   const rect = stage.getBoundingClientRect();
