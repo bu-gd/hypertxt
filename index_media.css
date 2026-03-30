@@ -1,0 +1,59 @@
+@media only screen and (max-width: 800px) {
+  button {
+    font-size: 28px;
+  }
+
+  h1 {
+    font-size: 54px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .menu-1st {
+    display: block;
+  }
+  .menu-2nd {
+    display: block;
+  }
+  .menu-hidden {
+    display: none;
+  }
+
+  .side-l {
+    top: 43%;
+  }
+
+  .side-r {
+    top: 43%;
+  }
+
+  #name-list {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .name-last {
+    display: none;
+  }
+
+  #hyper {
+    display: block;
+  }
+
+  #txt {
+    display: block;
+    transform: translate(-6%, -27%);
+  }
+}
+

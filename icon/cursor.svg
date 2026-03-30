@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="13" height="20" viewBox="0 0 13 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1a1413;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-2" points=".62 17.09 .57 1.01 12.17 12.04 12.12 13.29 7.44 13.45 7.86 14.16 9.72 17.24 10.04 18.49 9.26 19.01 7.64 19.27 6.71 18.23 6.34 16.9 5.2 14.71 4.47 14.28 4.2 14.72 1.3 17.45 .62 17.09"/>
+  <g>
+    <rect class="cls-1" width=".98" height="17.92"/>
+    <rect class="cls-1" x=".89" y="1.11" width="1.2" height="1"/>
+    <rect class="cls-1" x="2.1" y="2.1" width=".98" height="1.12"/>
+    <rect class="cls-1" x="3.08" y="3.2" width="1.13" height="1.01"/>
+    <rect class="cls-1" x="4.23" y="4.21" width=".99" height="1.09"/>
+    <rect class="cls-1" x="5.31" y="5.31" width=".99" height=".97"/>
+    <rect class="cls-1" x="6.29" y="6.29" width="1.1" height="1.12"/>
+    <rect class="cls-1" x="7.4" y="7.42" width=".99" height=".99"/>
+    <rect class="cls-1" x="8.41" y="8.38" width="1.1" height="1.12"/>
+    <rect class="cls-1" x="9.52" y="9.5" width="1.01" height="1.09"/>
+    <rect class="cls-1" x="10.51" y="10.58" width="1.13" height=".99"/>
+    <rect class="cls-1" x="11.56" y="11.64" width="1.02" height="2.08"/>
+    <rect class="cls-1" x="7.31" y="12.63" width="4.24" height="1.09"/>
+    <rect class="cls-1" x="7.31" y="13.61" width="1.1" height="1.09"/>
+    <rect class="cls-1" x="8.4" y="14.72" width="1.1" height="2.21"/>
+    <rect class="cls-1" x="5.21" y="14.72" width="1.1" height="2.21"/>
+    <rect class="cls-1" x="4.2" y="13.65" width="1" height="1.06"/>
+    <rect class="cls-1" x="3.17" y="14.72" width="1.03" height="1.09"/>
+    <rect class="cls-1" x="2.09" y="15.81" width="1.03" height="1.09"/>
+    <rect class="cls-1" x=".9" y="16.91" width="1.19" height="1"/>
+    <rect class="cls-1" x="9.51" y="16.9" width=".99" height="1.99"/>
+    <rect class="cls-1" x="6.34" y="16.9" width=".99" height="1.99"/>
+    <rect class="cls-1" x="7.32" y="18.9" width="2.19" height="1.1"/>
+  </g>
+</svg>

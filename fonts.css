@@ -1,0 +1,128 @@
+@font-face {
+  font-family: 'BBBManifontGrotesk-Book';
+  src: url('./fonts/BBBManifontGrotesk-Book.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'BBBManifontGrotesk-BookItalic';
+  src: url('./fonts/BBBManifontGrotesk-BookItalic.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'bb-book-Text';
+  src: url('./fonts/bb-book-Text.otf') format('opentype');
+}
+
+
+.material-symbols-outlined {
+  font-size: 35px;
+  text-shadow: 2px 2px 2px white, -2px -2px 2px white, 2px -2px 2px white, -2px 2px 2px white;
+  color: var(--color-b);
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.material-symbols-outlined:hover {
+  color: var(--color-r);
+}
+
+::selection {
+  color: white;
+  background: var(--color-r);
+}
+
+::-moz-selection {
+  color: white;
+  background: var(--color-r);
+}
+
+i {
+  color: var(--color-r);
+}
+
+button {
+  font-family: 'BBBManifontGrotesk-Book';
+  color: var(--color-g);
+  font-size: 80px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  font-family: 'BBBManifontGrotesk-Book';
+  color: var(--color-b);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-r);
+}
+
+h1 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-weight: normal;
+  font-size: 120px;
+  /* text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white; */
+  text-shadow: 2px 2px 2px white, -2px -2px 2px white, 2px -2px 2px white, -2px 2px 2px white;
+}
+
+h2 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-weight: normal;
+  font-size: 52px;
+}
+
+/* button:hover {
+  color: var(--color-r);
+} */
+
+.side-l button,
+.side-r button {
+  color: var(--color-g);
+}
+
+.side-l button:hover,
+.side-r button:hover {
+  color: var(--color-r);
+}
+
+.side-l button.active,
+.side-r button.active {
+  color: var(--color-r);
+}
+
+h3 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-weight: normal;
+  font-size: 36px;
+  color: var(--color-b);
+  text-shadow: 2px 2px 2px white, -2px -2px 2px white, 2px -2px 2px white, -2px 2px 2px white;
+}
+
+h4 {
+  margin-block-start: 0;
+  /* margin-block-end: 0; */
+  font-weight: normal;
+  font-family: 'BBBManifontGrotesk-Book';
+  font-size: 28px;
+  color: var(--color-b);
+  /* text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white; */
+  text-shadow: 2px 2px 2px white, -2px -2px 2px white, 2px -2px 2px white, -2px 2px 2px white;
+}
+
+p {
+  margin-block-start: 0;
+  /* margin-block-end: 0; */
+  padding: 0 80px;
+  font-weight: normal;
+  font-family: 'bb-book-Text';
+  font-size: 28px;
+  color: var(--color-b);
+}
