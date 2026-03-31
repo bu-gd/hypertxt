@@ -212,15 +212,11 @@ function focusIndex(index, total, mode = "auto") {
   const step = (Math.PI * 2) / total;
 
   if (mode === "auto") {
-    // ✅ 항상 한 방향
     targetRotation -= step;
   } else {
-    // ✅ 가장 가까운 방향으로 이동 (hover / click)
     const desired = -index * step;
-
     let diff = desired - targetRotation;
 
-    // 각도를 -PI ~ PI 범위로 정규화
     diff = Math.atan2(Math.sin(diff), Math.cos(diff));
 
     targetRotation += diff;
@@ -338,7 +334,6 @@ fetch('data.json')
     function updateHyper() {
       if (isPaused || isLocked) return;
 
-      // ✅ intro 제거 (기존 유지)
       if (!hasStarted) {
         hasStarted = true;
 
@@ -349,41 +344,14 @@ fetch('data.json')
         }
       }
 
-      // ✅ [핵심 수정] index 먼저 증가
       currentIndex = (currentIndex + 1) % data.length;
-
       const person = data[currentIndex];
 
-      // ✅ 텍스트와 회전이 같은 index 사용
       hyper.textContent = person["name-first"];
       hyper.style.color = "var(--color-r)";
 
-      // focusIndex(currentIndex, data.length);
       focusIndex(currentIndex, data.length, "auto");
     }
-
-    // function updateHyper() {
-    //   if (isPaused || isLocked) return;
-
-    //   if (!hasStarted) {
-    //     hasStarted = true;
-
-    //     if (introPoster) {
-    //       introPoster.remove();
-    //       introPoster = null;
-    //       focusedPoster = null;
-    //     }
-    //   }
-
-    //   const person = data[currentIndex];
-
-    //   hyper.textContent = person["name-first"];
-    //   hyper.style.color = "var(--color-r)";
-
-    //   currentIndex = (currentIndex + 1) % data.length;
-
-    //   focusIndex(currentIndex, data.length);
-    // }
 
     function startLoop() {
       intervalId = setInterval(updateHyper, 3000);
@@ -577,7 +545,6 @@ function renderPagination() {
     btn.classList.add("material-symbols-outlined");
     btn.textContent = "circle";
 
-    // ✅ active highlight
     if (i === activeIndex) {
       btn.style.color = "var(--color-r)";
     } else {
