@@ -96,6 +96,9 @@ let currentRotation = 0;
 let currentIndex = 0;
 let focusedPoster = null;
 
+let introPoster = null;
+let hasStarted = false;
+
 initThree();
 
 function initThree() {
@@ -198,13 +201,33 @@ function addPosterSet(list) {
 // ROTATION CONTROL
 // =============================================================================
 
-function focusIndex(index, total) {
+// function focusIndex(index, total) {
+//   const step = (Math.PI * 2) / total;
+
+//   targetRotation = -index * step;
+//   currentIndex = index;
+// }
+
+function focusIndex(index, total, mode = "auto") {
   const step = (Math.PI * 2) / total;
 
-  targetRotation = -index * step;
+  if (mode === "auto") {
+    // ✅ 항상 한 방향
+    targetRotation -= step;
+  } else {
+    // ✅ 가장 가까운 방향으로 이동 (hover / click)
+    const desired = -index * step;
+
+    let diff = desired - targetRotation;
+
+    // 각도를 -PI ~ PI 범위로 정규화
+    diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+
+    targetRotation += diff;
+  }
+
   currentIndex = index;
 }
-
 
 // =============================================================================
 // ANIMATION LOOP
@@ -268,9 +291,9 @@ function addFocusedPoster(src) {
   const { x, y } = getCenterPosition();
 
   img.style.left = x + 'px';
-  img.style.top = y + 'px';
+  img.style.top = '0';
 
-  img.style.transform = `translate(-50%, -50%)`;
+  img.style.transform = `translate(-50%, 0)`;
   img.style.width = "75%";
   img.style.maxWidth = "none";
 
@@ -306,18 +329,61 @@ fetch('data.json')
 
     addPosterSet(posterList);
 
+    focusIndex(0, data.length, "direct");
+    currentRotation = targetRotation;
+
+    addFocusedPoster('./posters/hyper.png');
+    introPoster = focusedPoster;
+
     function updateHyper() {
       if (isPaused || isLocked) return;
 
+      // ✅ intro 제거 (기존 유지)
+      if (!hasStarted) {
+        hasStarted = true;
+
+        if (introPoster) {
+          introPoster.remove();
+          introPoster = null;
+          focusedPoster = null;
+        }
+      }
+
+      // ✅ [핵심 수정] index 먼저 증가
+      currentIndex = (currentIndex + 1) % data.length;
+
       const person = data[currentIndex];
 
+      // ✅ 텍스트와 회전이 같은 index 사용
       hyper.textContent = person["name-first"];
       hyper.style.color = "var(--color-r)";
 
-      currentIndex = (currentIndex + 1) % data.length;
-
-      focusIndex(currentIndex, data.length);
+      // focusIndex(currentIndex, data.length);
+      focusIndex(currentIndex, data.length, "auto");
     }
+
+    // function updateHyper() {
+    //   if (isPaused || isLocked) return;
+
+    //   if (!hasStarted) {
+    //     hasStarted = true;
+
+    //     if (introPoster) {
+    //       introPoster.remove();
+    //       introPoster = null;
+    //       focusedPoster = null;
+    //     }
+    //   }
+
+    //   const person = data[currentIndex];
+
+    //   hyper.textContent = person["name-first"];
+    //   hyper.style.color = "var(--color-r)";
+
+    //   currentIndex = (currentIndex + 1) % data.length;
+
+    //   focusIndex(currentIndex, data.length);
+    // }
 
     function startLoop() {
       intervalId = setInterval(updateHyper, 3000);
@@ -369,7 +435,8 @@ fetch('data.json')
         insta2.href = person.instagram2 ? `https://instagram.com/${person.instagram2}` : '#';
         insta2.textContent = person.instagram2 ? `@${person.instagram2}` : '';
 
-        focusIndex(i, data.length);
+        // focusIndex(i, data.length);
+        focusIndex(i, data.length, "direct");
       });
 
       div.addEventListener('mouseleave', () => {
@@ -386,7 +453,8 @@ fetch('data.json')
         stopLoop();
 
         hyper.textContent = person["name-first"];
-        focusIndex(i, data.length);
+        // focusIndex(i, data.length);
+        focusIndex(i, data.length, "direct");
         addFocusedPoster(person.poster);
         closeBtn.style.display = 'block';
       });
@@ -412,7 +480,7 @@ fetch('data.json')
     setTimeout(() => {
       updateHyper();
       startLoop();
-    }, 1500);
+    }, 500);
 
   });
 
@@ -422,25 +490,50 @@ fetch('data.json')
 // =============================================================================
 const bluetonePath = "./gallery_bluetone/";
 const originalPath = "./gallery_original/";
+const mobilePath = "./gallery_mobile/";
 
+// =============================================================================
+// ✅ Gallery Images Here!!! 
+// =============================================================================
 const fileNames = [
-  "page1.jpg","page2.jpg","page3.jpg"
+  "page1.jpg",
+  "page2.jpg",
+  "page3.jpg",
+  "page1.jpg",
+  "page2.jpg",
+  "page3.jpg",
+  "page1.jpg",
+  "page2.jpg",
+  "page3.jpg",
+  "page1.jpg",
+  "page2.jpg",
+  "page3.jpg",
+  "page1.jpg",
+  "page2.jpg",
+  "page3.jpg",
 ];
+// =============================================================================
+
 
 const isMobile = window.matchMedia("(max-width: 600px)").matches;
 const images = fileNames.map(file =>
   isMobile
-    ? [bluetonePath + file]
+    ? [mobilePath + file]
     : [bluetonePath + file, originalPath + file]
 );
 
-let currentPage = 0;
 let activeIndex = 0;
 let hoverIndex = null;
+
+let pageGroup = 0;
+const PAGE_SIZE = 10;
 
 const gallery = document.getElementById("page-gallery");
 const pagination = document.getElementById("pagination");
 
+// =============================================================================
+// background
+// =============================================================================
 function renderBackground() {
   const index = hoverIndex !== null ? hoverIndex : activeIndex;
   if (!images[index]) return;
@@ -453,12 +546,43 @@ function renderBackground() {
   gallery.style.backgroundImage = `url('${img}')`;
 }
 
+// =============================================================================
+// pagination
+// =============================================================================
 function renderPagination() {
   pagination.innerHTML = "";
 
-  images.forEach((_, i) => {
+  const totalPages = images.length;
+  const start = pageGroup * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, totalPages);
+
+  // ---------------- previous button ----------------
+  if (pageGroup > 0) {
+    const prevBtn = document.createElement("button");
+    prevBtn.classList.add("material-symbols-outlined");
+    prevBtn.textContent = "arrow_back_ios";
+    prevBtn.style.fontVariationSettings = "'FILL' 1, 'wght' 700, 'GRAD' 200,'opsz' 20";
+
+    prevBtn.onclick = () => {
+      pageGroup--;
+      renderPagination();
+    };
+
+    pagination.appendChild(prevBtn);
+  }
+
+  // ---------------- page dots ----------------
+  for (let i = start; i < end; i++) {
     const btn = document.createElement("button");
-    btn.textContent = "⬤";
+    btn.classList.add("material-symbols-outlined");
+    btn.textContent = "circle";
+
+    // ✅ active highlight
+    if (i === activeIndex) {
+      btn.style.color = "var(--color-r)";
+    } else {
+      btn.style.color = "";
+    }
 
     btn.onmouseenter = () => {
       hoverIndex = i;
@@ -477,76 +601,37 @@ function renderPagination() {
     };
 
     pagination.appendChild(btn);
-  });
+  }
+
+  // ---------------- next button ----------------
+  if (end < totalPages) {
+    const nextBtn = document.createElement("button");
+    nextBtn.classList.add("material-symbols-outlined");
+    nextBtn.textContent = "arrow_forward_ios";
+    nextBtn.style.fontVariationSettings = "'FILL' 1, 'wght' 700, 'GRAD' 200,'opsz' 20";
+
+
+    nextBtn.onclick = () => {
+      pageGroup++;
+      renderPagination();
+    };
+
+    pagination.appendChild(nextBtn);
+  }
 }
 
 renderPagination();
 gallery.style.backgroundImage = `url('${images[0][0]}')`;
 
 
-// const bluetonePath = "./gallery_bluetone/";
-// const originalPath = "./gallery_original/";
-
-// const fileNames = [
-//   "page1.jpg","page2.jpg","page3.jpg"
-// ];
-
-// const images = fileNames.map(file => [
-//   bluetonePath + file,
-//   originalPath + file
-// ]);
-
-// let currentPage = 0;
-// let activeIndex = 0;
-// let hoverIndex = null;
-
-// const gallery = document.getElementById("page-gallery");
-// const pagination = document.getElementById("pagination");
-
-// function renderBackground() {
-//   const index = hoverIndex !== null ? hoverIndex : activeIndex;
-//   if (!images[index]) return;
-
-//   const img = images[index][hoverIndex !== null ? 1 : 0];
-//   gallery.style.backgroundImage = `url('${img}')`;
-// }
-
-// function renderPagination() {
-//   pagination.innerHTML = "";
-
-//   images.forEach((_, i) => {
-//     const btn = document.createElement("button");
-//     btn.textContent = "⬤";
-
-//     btn.onmouseenter = () => {
-//       hoverIndex = i;
-//       renderBackground();
-//     };
-
-//     btn.onmouseleave = () => {
-//       hoverIndex = null;
-//       renderBackground();
-//     };
-
-//     btn.onclick = () => {
-//       activeIndex = i;
-//       renderPagination();
-//       renderBackground();
-//     };
-
-//     pagination.appendChild(btn);
-//   });
-// }
-
-// renderPagination();
-// gallery.style.backgroundImage = `url('${images[0][0]}')`;
-
-
 // =============================================================================
 // Floating (UNCHANGED)
 // =============================================================================
 
-const floats = ["./icon/joint_1.svg", "./icon/joint_2.svg"];
+const floats = [
+  "./icon/joint_1.svg", 
+  "./icon/joint_2.svg"
+];
 
 const objects = [];
 const count = 2;
@@ -624,4 +709,16 @@ window.addEventListener('resize', () => {
   focusedPoster.style.top = cy + 'px';
 
   focusedPoster.style.transform = `translate(-50%, -50%)`;
+});
+
+
+// =============================================================================
+// Mobile Zoom Prevented
+// =============================================================================
+document.addEventListener("gesturestart", function (e) {
+  e.preventDefault();
+});
+
+document.addEventListener("dblclick", function (e) {
+  e.preventDefault();
 });
