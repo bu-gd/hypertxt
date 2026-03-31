@@ -220,6 +220,7 @@ body {
   position: absolute;
   bottom: 10px;
   left: 50%;
+  width: 100%;
   -webkit-transform: translate(-50%, 0);
   -moz-transform: translate(-50%, 0);
   -ms-transform: translate(-50%, 0);

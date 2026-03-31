@@ -494,7 +494,7 @@ let activeIndex = 0;
 let hoverIndex = null;
 
 let pageGroup = 0;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 7;
 
 const gallery = document.getElementById("page-gallery");
 const pagination = document.getElementById("pagination");
