@@ -27,6 +27,53 @@ eggModal.querySelector('.modal-content').addEventListener('click', (e) => {
   e.stopPropagation();
 });
 
+//new
+const eggFloatingLayer = document.querySelector('.egg-floating-layer');
+
+const eggFloatSources = [
+  "./icon/joint_1.svg",
+  "./icon/joint_2.svg"
+];
+
+const eggFloatItems = [];
+
+function createEggFloating() {
+  if (!eggFloatingLayer || eggFloatItems.length) return;
+
+  const positions = [
+    { top: "18px", left: "40px" },
+    { bottom: "12px", right: "36px" }
+  ];
+
+  positions.forEach((pos, i) => {
+    const img = document.createElement("img");
+    img.classList.add("egg-floating");
+    img.src = eggFloatSources[i % eggFloatSources.length];
+
+    Object.assign(img.style, pos);
+
+    eggFloatingLayer.appendChild(img);
+
+    eggFloatItems.push({
+      el: img,
+      angle: Math.random() * 360,
+      rotSpeed: i === 0 ? 0.25 : -0.35
+    });
+  });
+}
+
+function animateEggFloating() {
+  eggFloatItems.forEach(item => {
+    item.angle += item.rotSpeed;
+    item.el.style.transform = `rotate(${item.angle}deg)`;
+  });
+
+  requestAnimationFrame(animateEggFloating);
+}
+
+createEggFloating();
+animateEggFloating();
+
 
 // =============================================================================
 // side menu
@@ -467,18 +514,14 @@ const fileNames = [
   "page1.jpg",
   "page2.jpg",
   "page3.jpg",
-  "page1.jpg",
-  "page2.jpg",
-  "page3.jpg",
-  "page1.jpg",
-  "page2.jpg",
-  "page3.jpg",
-  "page1.jpg",
-  "page2.jpg",
-  "page3.jpg",
-  "page1.jpg",
-  "page2.jpg",
-  "page3.jpg",
+  "page4.jpg",
+  "page5.jpg",
+  "page6.jpg",
+  "page7.jpg",
+  "page8.jpg",
+  "page9.jpg",
+  "page10.jpg",
+  
 ];
 // =============================================================================
 
@@ -531,6 +574,9 @@ function renderPagination() {
     prevBtn.textContent = "arrow_back_ios";
     prevBtn.style.fontVariationSettings = "'FILL' 1, 'wght' 700, 'GRAD' 200,'opsz' 20";
 
+    // const galleryArrows = pageGallery.querySelectorAll(".gallery-arrow"); //----setting up removal of gallery arrows
+    // galleryArrows.forEach(btn => btn.remove()); //----removal of gallery arrows
+
     prevBtn.onclick = () => {
       pageGroup--;
       renderPagination();
@@ -538,6 +584,35 @@ function renderPagination() {
 
     pagination.appendChild(prevBtn);
   }
+
+//   // ---------------- prev & next image button ----------------
+//   function createGalleryArrow(direction) {
+//     const isPrev = direction === "prev";
+//     if (isPrev ? activeIndex <= 0 : activeIndex >= images.length - 1) return;
+
+//     const btn = document.createElement("button");
+//     btn.classList.add("material-symbols-outlined", "gallery-arrow");
+//     btn.textContent = isPrev ? "arrow_back_ios" : "arrow_forward_ios";
+//     btn.style.fontVariationSettings = "'FILL' 1, 'wght' 700, 'GRAD' 200,'opsz' 20";
+//     btn.style.position = "absolute";
+//     btn.style[isPrev ? "left" : "right"] = "10px";
+//     btn.style.top = "50%";
+//     btn.style.transform = "translateY(-50%)";
+
+//     btn.onclick = () => {
+//       activeIndex += isPrev ? -1 : 1;
+//       const newGroup = Math.floor(activeIndex / PAGE_SIZE);
+//       if (newGroup !== pageGroup) {
+//         pageGroup = newGroup;
+//       }
+//       renderPagination();
+//       renderBackground();
+//     };
+
+//     pageGallery.appendChild(btn);
+//   }
+//   createGalleryArrow("prev");
+//   createGalleryArrow("next");
 
   // ---------------- page dots ----------------
   for (let i = start; i < end; i++) {
