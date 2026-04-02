@@ -378,9 +378,30 @@ fetch('data.json')
     addFocusedPoster('./posters/hyper.png');
     introPoster = focusedPoster;
 
+    const website = document.getElementById('website');
+    const insta1 = document.getElementById('instagram1');
+    const insta2 = document.getElementById('instagram2');
+
+    function hideContacts() {
+      website.style.display = 'none';
+      insta1.style.display = 'none';
+      insta2.style.display = 'none';
+
+      website.textContent = '';
+      insta1.textContent = '';
+      insta2.textContent = '';
+    }
+
     function updateHyper() {
+      // if (isPaused || isLocked) return;
+
+      // hideContacts();
       if (isPaused || isLocked) return;
 
+      if (!isPaused && !isLocked) {
+        hideContacts();
+      }
+      
       if (!hasStarted) {
         hasStarted = true;
 
@@ -411,7 +432,6 @@ fetch('data.json')
     // =============================================================================
     // NAME LIST
     // =============================================================================
-
     data.forEach((person, i) => {
       const div = document.createElement('div');
       div.className = 'name';
@@ -437,10 +457,6 @@ fetch('data.json')
         hyper.textContent = person["name-first"];
         
         // contact
-        const website = document.getElementById('website');
-        const insta1 = document.getElementById('instagram1');
-        const insta2 = document.getElementById('instagram2');
-
         website.href = person.website ? `https://${person.website}` : '#';
         website.textContent = person.website || '';
 
@@ -450,6 +466,10 @@ fetch('data.json')
         insta2.href = person.instagram2 ? `https://instagram.com/${person.instagram2}` : '#';
         insta2.textContent = person.instagram2 ? `@${person.instagram2}` : '';
 
+        website.style.display = 'inline-block';
+        insta1.style.display = 'inline-block';
+        insta2.style.display = 'inline-block';
+
         // focusIndex(i, data.length);
         focusIndex(i, data.length, "direct");
       });
@@ -458,6 +478,7 @@ fetch('data.json')
         if (isLocked) return;
 
         isPaused = false;
+        hideContacts();
         startLoop();
       });
 
