@@ -292,9 +292,12 @@ body {
   color: var(--color-b);
 }
 
-.contact-section {
-  display: inline-block;
-  width: 8px;
+#contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  flex-flow: row wrap;
 }
 
 /* ============================================================================= */

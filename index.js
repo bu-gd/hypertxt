@@ -489,6 +489,20 @@ fetch('data.json')
         stopLoop();
 
         hyper.textContent = person["name-first"];
+
+        website.href = person.website ? `https://${person.website}` : '#';
+        website.textContent = person.website || '';
+
+        insta1.href = person.instagram1 ? `https://instagram.com/${person.instagram1}` : '#';
+        insta1.textContent = person.instagram1 ? `@${person.instagram1}` : '';
+
+        insta2.href = person.instagram2 ? `https://instagram.com/${person.instagram2}` : '#';
+        insta2.textContent = person.instagram2 ? `@${person.instagram2}` : '';
+
+        website.style.display = 'inline-block';
+        insta1.style.display = 'inline-block';
+        insta2.style.display = 'inline-block';
+
         // focusIndex(i, data.length);
         focusIndex(i, data.length, "direct");
         addFocusedPoster(person.poster);
